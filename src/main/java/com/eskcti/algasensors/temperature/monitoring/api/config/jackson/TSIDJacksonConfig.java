@@ -2,8 +2,8 @@ package com.eskcti.algasensors.temperature.monitoring.api.config.jackson;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import tools.jackson.databind.JacksonModule;
-import tools.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import io.hypersistence.tsid.TSID;
 
@@ -11,7 +11,7 @@ import io.hypersistence.tsid.TSID;
 public class TSIDJacksonConfig {
 
     @Bean
-    public JacksonModule tsidModule() {
+    public Module tsidModule() {
         SimpleModule module = new SimpleModule();
         module.addSerializer(TSID.class, new TSIDToStringSerializer());
         return module; 

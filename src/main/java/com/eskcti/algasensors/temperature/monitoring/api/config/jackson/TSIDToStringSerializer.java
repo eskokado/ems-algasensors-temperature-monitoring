@@ -1,16 +1,17 @@
 package com.eskcti.algasensors.temperature.monitoring.api.config.jackson;
 
-import tools.jackson.core.JacksonException;
-import tools.jackson.core.JsonGenerator;
-import tools.jackson.databind.SerializationContext;
-import tools.jackson.databind.ValueSerializer;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
 import io.hypersistence.tsid.TSID;
 
-public class TSIDToStringSerializer extends ValueSerializer<TSID> {
+import java.io.IOException;
+
+public class TSIDToStringSerializer extends JsonSerializer<TSID> {
 
     @Override
-    public void serialize(TSID value, JsonGenerator gen, SerializationContext ctxt) throws JacksonException {
+    public void serialize(TSID value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeString(value.toString());
     }
 
