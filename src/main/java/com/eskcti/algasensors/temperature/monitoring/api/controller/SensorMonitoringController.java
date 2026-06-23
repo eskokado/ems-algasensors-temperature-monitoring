@@ -1,5 +1,7 @@
 package com.eskcti.algasensors.temperature.monitoring.api.controller;
 
+import java.time.Duration;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import com.eskcti.algasensors.temperature.monitoring.domain.repository.SensorMon
 
 import io.hypersistence.tsid.TSID;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
 @RestController
 @RequestMapping("/api/sensors/{sensorId}/monitoring")
@@ -59,9 +62,13 @@ public class SensorMonitoringController {
 
     @DeleteMapping("/enable")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @SneakyThrows
     public void disableSensor(@PathVariable("sensorId") TSID sensorId)
     {
         var sensorMonitoring = findByIdOrDefault(sensorId);
+        if (!sensorMonitoring.getEnabled()) {
+            Thread.sleep(Duration.ofSeconds(10));
+        }
         sensorMonitoring.setEnabled(false);
         sensorMonitoringRepository.saveAndFlush(sensorMonitoring);
     }
