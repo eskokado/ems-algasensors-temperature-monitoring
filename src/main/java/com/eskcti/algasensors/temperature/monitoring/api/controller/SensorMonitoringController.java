@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.eskcti.algasensors.temperature.monitoring.api.model.SensorMonitoringOutput;
 import com.eskcti.algasensors.temperature.monitoring.domain.model.SensorId;
@@ -49,6 +50,9 @@ public class SensorMonitoringController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void enableSensor(@PathVariable("sensorId") TSID sensorId) {
         var sensorMonitoring = findByIdOrDefault(sensorId);
+        if (sensorMonitoring.getEnabled()) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
         sensorMonitoring.setEnabled(true);
         sensorMonitoringRepository.saveAndFlush(sensorMonitoring);
     }
