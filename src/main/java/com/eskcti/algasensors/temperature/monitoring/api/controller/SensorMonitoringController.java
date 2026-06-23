@@ -32,7 +32,7 @@ public class SensorMonitoringController {
         var sensorMonitoring = findByIdOrDefault(sensorId);
         
         return SensorMonitoringOutput.builder()
-            .id(sensorMonitoring.getId().getValue())
+            .id(sensorMonitoring.getId().getValue().toString())
             .lastTemperature(sensorMonitoring.getLastTemperature())
             .updatedAt(sensorMonitoring.getUpdatedAt())
             .enabled(sensorMonitoring.getEnabled())

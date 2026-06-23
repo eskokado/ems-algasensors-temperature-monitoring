@@ -2,16 +2,18 @@ package com.eskcti.algasensors.temperature.monitoring.api.model;
 
 import java.time.OffsetDateTime;
 
-import com.eskcti.algasensors.temperature.monitoring.domain.model.SensorId;
-
-import io.hypersistence.tsid.TSID;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SensorMonitoringOutput {
-    private TSID id;
+    // id is sent as the TSID string value
+    private String id;
     private Double lastTemperature;
     private OffsetDateTime updatedAt;
     private Boolean enabled;
