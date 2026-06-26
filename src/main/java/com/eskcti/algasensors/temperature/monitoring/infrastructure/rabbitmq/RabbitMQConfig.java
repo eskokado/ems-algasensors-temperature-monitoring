@@ -16,7 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 public class RabbitMQConfig {
-    public static final String QUEUE = "temperature-monitoring.process-temperature.v1.q";
+    public static final String QUEUE_PROCESS_TEMPERATURE = "temperature-monitoring.process-temperature.v1.q";
+    public static final String QUEUE_ALERTING = "temperature-monitoring.alerting.v1.q";
     
     @Bean
     public Jackson2JsonMessageConverter jackson2JsonMessageConverter(ObjectMapper objectMapper) {
@@ -28,9 +29,16 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue queue() {
+    public Queue queueProcessTemperature() {
         return QueueBuilder
-            .durable(QUEUE)
+            .durable(QUEUE_PROCESS_TEMPERATURE)
+            .build();
+    }
+
+    @Bean
+    public Queue queueAlerting() {
+        return QueueBuilder
+            .durable(QUEUE_ALERTING)
             .build();
     }
 
@@ -41,7 +49,12 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding binding() {
-        return BindingBuilder.bind(queue()).to(exchange());
+    public Binding binding_process_temperature() {
+        return BindingBuilder.bind(queueProcessTemperature()).to(exchange());
+    }
+    
+    @Bean
+    public Binding binding_alerting() {
+        return BindingBuilder.bind(queueAlerting()).to(exchange());
     }
 }
