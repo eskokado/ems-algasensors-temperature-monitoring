@@ -36,6 +36,10 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+tasks.withType(JavaCompile).configureEach {
+	options.compilerArgs.add("-parameters")
+}
+
 tasks.named('bootRun', JavaExec) {
 	jvmArgs = ['-Xmx256m']
 	doFirst {

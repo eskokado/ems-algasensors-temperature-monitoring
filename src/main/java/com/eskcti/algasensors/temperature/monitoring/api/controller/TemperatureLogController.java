@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.domain.Page;
 
-import com.eskcti.algasensors.temperature.monitoring.api.model.TemperatureLogOutput;
+import com.eskcti.algasensors.temperature.monitoring.api.model.TemperatureLogData;
 import com.eskcti.algasensors.temperature.monitoring.domain.model.SensorId;
 import com.eskcti.algasensors.temperature.monitoring.domain.model.TemperatureLog;
 import com.eskcti.algasensors.temperature.monitoring.domain.repository.TemperatureLogRepository;
@@ -23,15 +23,16 @@ public class TemperatureLogController {
     private final TemperatureLogRepository temperatureLogRepository;
 
     @GetMapping
-    public Page<TemperatureLogOutput> searchBySensorId(@PathVariable("sensorId") TSID sensorId,     
-                                                        @PageableDefault Pageable pageable) {
+    public Page<TemperatureLogData> searchBySensorId(@PathVariable("sensorId") TSID sensorId,
+            @PageableDefault Pageable pageable) {
 
-        Page<TemperatureLog> temperatureLogs = temperatureLogRepository.findAllBySensorId(new SensorId(sensorId), pageable);
-        return temperatureLogs.map(temperatureLog -> TemperatureLogOutput.builder()
+        Page<TemperatureLog> temperatureLogs = temperatureLogRepository.findAllBySensorId(new SensorId(sensorId),
+                pageable);
+        return temperatureLogs.map(temperatureLog -> TemperatureLogData.builder()
                 .id(temperatureLog.getId().getValue())
                 .sensorId(temperatureLog.getSensorId().getValue())
                 .registeredAt(temperatureLog.getRegisteredAt())
                 .value(temperatureLog.getValue())
-                .build());              
+                .build());
     }
 }
