@@ -9,9 +9,9 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import com.eskcti.algasensors.temperature.monitoring.api.model.TemperatureLogData;
+import com.eskcti.algasensors.temperature.monitoring.domain.service.SensorAlertService;
 import com.eskcti.algasensors.temperature.monitoring.domain.service.TemperatureMonitoringService;
 
-import io.hypersistence.tsid.TSID;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class RabbitMQListener {
     private final TemperatureMonitoringService temperatureMonitoringService;
+    private final SensorAlertService sensorAlertService;
 
     @RabbitListener(queues = RabbitMQConfig.QUEUE_PROCESS_TEMPERATURE, concurrency = "2-3")
     @SneakyThrows
@@ -34,9 +35,9 @@ public class RabbitMQListener {
     @RabbitListener(queues = RabbitMQConfig.QUEUE_ALERTING, concurrency = "2-3")
     @SneakyThrows
     public void handleAlerting(
-            @Payload TemperatureLogData temperatureLogData,
-            @Headers Map<String, Object> headers) {
-        log.info("Alerting: SensorId {} Temp {}", temperatureLogData.getSensorId().toString(), temperatureLogData.getValue());
-        Thread.sleep(Duration.ofSeconds(5));
+        @Payload TemperatureLogData temperatureLogData,
+        @Headers Map<String, Object> headers) {
+            sensorAlertService.handleAlerting(temperatureLogData);
+            Thread.sleep(Duration.ofSeconds(5));
     }
 }
