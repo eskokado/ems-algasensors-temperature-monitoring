@@ -6,6 +6,7 @@ O **Temperature Monitoring Service** é o microserviço encarregado de observar 
 
 - Registro de logs de temperatura (`TemperatureLog`).
 - Monitoramento do status dos sensores (`SensorMonitoring`).
+- Consumo de telemetria via mensageria (RabbitMQ Listener).
 - Disparo e consulta de alertas de temperatura (`SensorAlert`).
 - Integração de dados baseada em TSID para rastreabilidade temporal.
 
@@ -14,6 +15,7 @@ O **Temperature Monitoring Service** é o microserviço encarregado de observar 
 - **Framework**: Spring Boot 3.4.0
 - **Linguagem**: Java 21
 - **Porta**: 8082
+- **Mensageria**: RabbitMQ (Consumer/Listener)
 - **ID Strategy**: TSID (Time-Sorted Unique Identifiers)
 
 ### API Endpoints (Exemplos)
